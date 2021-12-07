@@ -6,8 +6,8 @@ import (
 	"math/big"
 
 	"crypto/ecdsa"
-	//michals92/cards-api
-	"github.com/michals92/wonderland-go/api" // this would be your generated smart contract bindings
+
+	"github.com/michals92/wonderland-go/mynft"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -51,7 +51,7 @@ func main() {
 	auth.GasLimit = uint64(3000000) // in units
 	auth.GasPrice = big.NewInt(1000000)
 
-	address, tx, instance, err := api.DeployApi(auth, client)
+	address, tx, instance, err := mynft.DeployApi(auth, client)
 	if err != nil {
 		panic(err)
 	}
