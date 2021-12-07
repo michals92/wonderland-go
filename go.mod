@@ -1,4 +1,4 @@
-module wonderland-go
+module main
 
 go 1.17
 
