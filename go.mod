@@ -1,4 +1,4 @@
-module main
+module github.com/michals92/wonderland-go
 
 go 1.17
 

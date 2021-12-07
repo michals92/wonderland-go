@@ -6,11 +6,10 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/.../.../api" // this would be your generated smart contract bindings
-
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/michals92/wonderland-go/api"
 )
 
 func main() {
@@ -19,7 +18,7 @@ func main() {
 		panic(err)
 	}
 
-	privateKey, err := crypto.HexToECDSA("PRIVATE_KEY")
+	privateKey, err := crypto.HexToECDSA("b713983f1a2d8e862ce84270c43da054f03a9e8471d07b2c4e8d0bcec450c0d2")
 	if err != nil {
 		panic(err)
 	}
