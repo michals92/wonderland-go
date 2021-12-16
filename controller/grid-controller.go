@@ -18,7 +18,7 @@ type GridController interface {
 
 var gridService service.GridService
 
-func NewPageController(gridSvc service.GridService) GridController {
+func NewGridController(gridSvc service.GridService) GridController {
 	gridService = gridSvc
 	return &gridController{}
 }
@@ -38,7 +38,7 @@ func (*gridController) GetParcels(response http.ResponseWriter, request *http.Re
 	//}
 
 	//response.WriteHeader(http.StatusOK)
-	//	json.NewEncoder(response).Encode(page)
+	//json.NewEncoder(response).Encode(page)
 	sendJson(response, http.StatusBadRequest, "Get parcels not implemented")
 }
 
