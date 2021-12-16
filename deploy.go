@@ -12,7 +12,7 @@ import (
 	"github.com/michals92/wonderland-go/api"
 )
 
-func main() {
+func deployHelloContract() {
 	client, err := ethclient.Dial("http://127.0.0.1:7545")
 	if err != nil {
 		panic(err)

@@ -1,0 +1,22 @@
+[
+  {
+    "h3index": "631032165498954751",
+    "name": "Nice cozy cabin",
+    "owner": "0x7F6339bBF6a0B38a891C8Fb0027B30C4223Eb681",
+    "nft_address": "0x61af4d29f672e27a097291f72fc571304bc93521",
+    "nft_id": 13534,
+    "blockchain": "FTM"
+  },
+  {
+    "h3index": "631032165754637823",
+    "name": "Nice cozy cabin",
+    "owner": "0x7F6339bBF6a0B38a891C8Fb0027B30C4223Eb681",
+    "pinned_nft": null
+  },
+  {
+    "h3index": "631032165754653695",
+    "name": "Nice cozy cabin",
+    "owner": "0x36001859e39702E437259F79044D736C5f536826",
+    "pinned_nft": null
+  }
+]

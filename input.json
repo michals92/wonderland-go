@@ -1,0 +1,18 @@
+{
+	"northeast": {
+		"latitude": 14.3,
+		"longitude": 12.1
+	},
+	"northwest": {
+		"latitude": 14.3,
+		"longitude": 12.1
+	},
+	"southeast": {
+		"latitude": 14.3,
+		"longitude": 12.1
+	},
+	"southwest": {
+		"latitude": 14.3,
+		"longitude": 12.1
+	}
+}
