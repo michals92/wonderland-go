@@ -15,7 +15,8 @@ type gridService struct{}
 var ctx = context.Background()
 
 type GridService interface {
-	GetGrid(parcel *entity.BoundingBox) ([]entity.Parcel, error)
+	GetGrid(box *entity.BoundingBox) ([]entity.Parcel, error)
+	AddParcel(parcel *entity.Parcel) error
 }
 
 var (
@@ -28,7 +29,11 @@ func NewGridService(repository repository.Repository) GridService {
 	return &gridService{}
 }
 
-func (*gridService) GetGrid(parcel *entity.BoundingBox) ([]entity.Parcel, error) {
+func (*gridService) GetGrid(box *entity.BoundingBox) ([]entity.Parcel, error) {
 	//TODO: implement user
-	return nil, errors.New("not implemented")
+	return nil, errors.New("get grid not implemented")
+}
+
+func (*gridService) AddParcel(parcel *entity.Parcel) error {
+	return repo.AddParcel(parcel)
 }

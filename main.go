@@ -26,6 +26,7 @@ func main() {
 	//httpRouter.AUTH_GET("/homepage", pageController.GetHomepage)
 
 	httpRouter.GET("/parcels", gridController.GetParcels)
+	httpRouter.POST("/parcel", gridController.AddParcel)
 
 	httpRouter.SERVE(os.Getenv("PORT"))
 }

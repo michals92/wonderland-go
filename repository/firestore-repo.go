@@ -1,42 +1,56 @@
 package repository
 
 import (
+	"context"
+	"errors"
+
+	"cloud.google.com/go/firestore"
 	"github.com/michals92/wonderland-go/entity"
 )
 
 type firestoreRepo struct{}
 
 const (
-	projectID          string = "nofoto-52aa6"
-	userCollectionName string = "users"
+	projectID            string = "nofoto-52aa6"
+	parcelCollectionName string = "parcels"
 )
 
 type Repository interface {
-	CreateUser(user *entity.User) error
+	GetParcels(box *entity.BoundingBox) ([]entity.Parcel, error)
+	AddParcel(parcel *entity.Parcel) error
 }
 
 func NewFirestoreRepository() Repository {
 	return &firestoreRepo{}
 }
 
-func (r *firestoreRepo) CreateUser(user *entity.User) error {
+func (r *firestoreRepo) GetParcels(box *entity.BoundingBox) ([]entity.Parcel, error) {
 
-	//TODO: - implement test object for user
-	/*ctx := context.Background()
-	client, err := firestore.NewClient(ctx, projectID)
+	ctx := context.Background()
+	client, error := firestore.NewClient(ctx, projectID)
 
-	if err != nil {
-		return err
+	if error != nil {
+		return nil, error
 	}
 
 	defer client.Close()
 
-	_, err = client.Collection(userCollectionName).Doc(user.Email).Get(ctx)
+	//TODO: - obtain parcels in selected area
+	return nil, errors.New("parcels repo not impelemented")
+}
 
-	if err == nil {
-		return errors.New("user with this email already exists")
+func (r *firestoreRepo) AddParcel(parcel *entity.Parcel) error {
+	ctx := context.Background()
+	client, error := firestore.NewClient(ctx, projectID)
+
+	if error != nil {
+		return error
 	}
 
-	_, err = client.Collection(userCollectionName).Doc(user.Email).Create(ctx, &user)*/
-	return nil
+	defer client.Close()
+
+	parcelDoc := client.Collection(parcelCollectionName).Doc(parcel.H3Index)
+	_, error = parcelDoc.Set(ctx, &parcel)
+
+	return error
 }
