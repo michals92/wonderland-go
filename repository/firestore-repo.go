@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"errors"
 
 	"cloud.google.com/go/firestore"
 	"github.com/michals92/wonderland-go/entity"
@@ -16,7 +15,7 @@ const (
 )
 
 type Repository interface {
-	GetParcels(box *entity.BoundingBox) ([]entity.Parcel, error)
+	GetParcels(box *entity.BoundingBox) (*[]entity.Parcel, error)
 	AddParcel(parcel *entity.Parcel) error
 }
 
@@ -24,7 +23,7 @@ func NewFirestoreRepository() Repository {
 	return &firestoreRepo{}
 }
 
-func (r *firestoreRepo) GetParcels(box *entity.BoundingBox) ([]entity.Parcel, error) {
+func (r *firestoreRepo) GetParcels(box *entity.BoundingBox) (*[]entity.Parcel, error) {
 
 	ctx := context.Background()
 	client, error := firestore.NewClient(ctx, projectID)
@@ -35,8 +34,21 @@ func (r *firestoreRepo) GetParcels(box *entity.BoundingBox) ([]entity.Parcel, er
 
 	defer client.Close()
 
-	//TODO: - obtain parcels in selected area
-	return nil, errors.New("parcels repo not impelemented")
+	//TODO: - limit to selected bounding box
+	var parcels []entity.Parcel
+	documents, err := client.Collection(parcelCollectionName).Documents(ctx).GetAll()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, doc := range documents {
+		var parcel entity.Parcel
+		_ = doc.DataTo(&parcel)
+		parcels = append(parcels, parcel)
+	}
+
+	return &parcels, nil
 }
 
 func (r *firestoreRepo) AddParcel(parcel *entity.Parcel) error {

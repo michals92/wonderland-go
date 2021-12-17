@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 
 	//"github.com/go-redis/redis/v7"
 	"github.com/michals92/wonderland-go/entity"
@@ -15,7 +14,7 @@ type gridService struct{}
 var ctx = context.Background()
 
 type GridService interface {
-	GetGrid(box *entity.BoundingBox) ([]entity.Parcel, error)
+	GetGrid(box *entity.BoundingBox) (*[]entity.Parcel, error)
 	AddParcel(parcel *entity.Parcel) error
 }
 
@@ -29,9 +28,13 @@ func NewGridService(repository repository.Repository) GridService {
 	return &gridService{}
 }
 
-func (*gridService) GetGrid(box *entity.BoundingBox) ([]entity.Parcel, error) {
-	//TODO: implement user
-	return nil, errors.New("get grid not implemented")
+func (*gridService) GetGrid(box *entity.BoundingBox) (*[]entity.Parcel, error) {
+	parcels, error := repo.GetParcels(box)
+	if error != nil {
+		return nil, error
+	}
+
+	return parcels, nil
 }
 
 func (*gridService) AddParcel(parcel *entity.Parcel) error {
