@@ -3,14 +3,12 @@ package service
 import (
 	"context"
 
-	//"github.com/go-redis/redis/v7"
 	"github.com/michals92/wonderland-go/entity"
 	"github.com/michals92/wonderland-go/repository"
 )
 
 type gridService struct{}
 
-//var client *redis.Client
 var ctx = context.Background()
 
 type GridService interface {
@@ -24,7 +22,6 @@ var (
 
 func NewGridService(repository repository.Repository) GridService {
 	repo = repository
-	//	initRedis()
 	return &gridService{}
 }
 
