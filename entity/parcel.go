@@ -7,7 +7,7 @@ type PinnedNFT struct {
 }
 
 type Parcel struct {
-	H3Index   string     `json:"h3index"`
+	H3Index   int        `json:"h3index"`
 	Name      string     `json:"name"`
 	Type      string     `json:"type"`
 	PinnedNFT *PinnedNFT `json:"pinned_nft,omitempty"`

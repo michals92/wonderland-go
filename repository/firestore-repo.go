@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"strconv"
 
 	"cloud.google.com/go/firestore"
 	"github.com/michals92/wonderland-go/entity"
@@ -61,7 +62,7 @@ func (r *firestoreRepo) AddParcel(parcel *entity.Parcel) error {
 
 	defer client.Close()
 
-	parcelDoc := client.Collection(parcelCollectionName).Doc(parcel.H3Index)
+	parcelDoc := client.Collection(parcelCollectionName).Doc(strconv.Itoa(parcel.H3Index))
 	_, error = parcelDoc.Set(ctx, &parcel)
 
 	return error
