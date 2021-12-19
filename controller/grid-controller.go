@@ -38,6 +38,7 @@ func (*gridController) GetParcels(response http.ResponseWriter, request *http.Re
 	parcels, error := gridService.GetGrid(&boundingBox)
 	if error != nil {
 		sendJson(response, http.StatusBadRequest, "Error getting grid")
+		return
 	}
 
 	fmt.Println(parcels)
