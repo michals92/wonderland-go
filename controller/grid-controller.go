@@ -33,6 +33,7 @@ func (*gridController) GetParcels(response http.ResponseWriter, request *http.Re
 
 	if error != nil {
 		sendJson(response, http.StatusBadRequest, "Unable to parse bounding box")
+		return
 	}
 
 	parcels, error := gridService.GetGrid(&boundingBox)
