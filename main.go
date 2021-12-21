@@ -27,7 +27,7 @@ func main() {
 	httpRouter.POST("/parcels", gridController.GetParcels)
 	httpRouter.POST("/parcel", gridController.AddParcel)
 	httpRouter.POST("/pinArt", gridController.PinArt)
-	httpRouter.GET("/unpinArt", gridController.UnpinArt)
+	httpRouter.POST("/unpinArt", gridController.UnpinArt)
 
 	httpRouter.SERVE(os.Getenv("PORT"))
 }
