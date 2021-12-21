@@ -102,7 +102,7 @@ func (r *firestoreRepo) AddPinnedNft(pin *entity.PinNft) error {
 
 	_, error = client.Collection(parcelCollectionName).Doc(strconv.Itoa(pin.H3Index)).Update(ctx, []firestore.Update{
 		{
-			Path:  "pinned_nft",
+			Path:  "PinnedNFT",
 			Value: pin.PinnedNFT,
 		},
 	})
@@ -122,7 +122,7 @@ func (r *firestoreRepo) RemovePinnedNft(index int) error {
 
 	_, error = client.Collection(parcelCollectionName).Doc(strconv.Itoa(index)).Update(ctx, []firestore.Update{
 		{
-			Path:  "pinned_nft",
+			Path:  "PinnedNFT",
 			Value: firestore.Delete,
 		},
 	})
