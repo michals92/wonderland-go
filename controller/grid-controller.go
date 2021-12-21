@@ -62,7 +62,7 @@ func (*gridController) AddParcel(response http.ResponseWriter, request *http.Req
 
 	error = gridService.AddParcel(&parcel)
 	if error != nil {
-		sendJson(response, http.StatusBadRequest, "Unable to add parcel")
+		sendJson(response, http.StatusBadRequest, error.Error())
 		return
 	}
 

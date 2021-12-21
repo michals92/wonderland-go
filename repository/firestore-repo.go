@@ -18,6 +18,7 @@ const (
 type Repository interface {
 	GetParcels(box *entity.BoundingBox) (*[]entity.Parcel, error)
 	AddParcel(parcel *entity.Parcel) error
+	ParcelExists(parcelId int) bool
 }
 
 func NewFirestoreRepository() Repository {
@@ -50,6 +51,25 @@ func (r *firestoreRepo) GetParcels(box *entity.BoundingBox) (*[]entity.Parcel, e
 	}
 
 	return &parcels, nil
+}
+
+func (r *firestoreRepo) ParcelExists(parcelId int) bool {
+	ctx := context.Background()
+	client, error := firestore.NewClient(ctx, projectID)
+
+	if error != nil {
+		return false
+	}
+
+	defer client.Close()
+
+	parcelDoc, error := client.Collection(parcelCollectionName).Doc(strconv.Itoa(parcelId)).Get(ctx)
+
+	if error != nil {
+		return false
+	}
+
+	return parcelDoc != nil
 }
 
 func (r *firestoreRepo) AddParcel(parcel *entity.Parcel) error {

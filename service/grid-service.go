@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	//"github.com/go-redis/redis/v7"
 	"github.com/michals92/wonderland-go/entity"
@@ -34,9 +35,22 @@ func (*gridService) GetGrid(box *entity.BoundingBox) (*[]entity.Parcel, error) {
 		return nil, error
 	}
 
-	return parcels, nil
+	var infoPar []entity.Parcel
+
+	for _, s := range *parcels {
+		s.Type = "bought"
+		infoPar = append(infoPar, s)
+	}
+
+	return &infoPar, nil
 }
 
 func (*gridService) AddParcel(parcel *entity.Parcel) error {
+	parcelExists := repo.ParcelExists(parcel.H3Index)
+
+	if parcelExists {
+		return errors.New("parcel already exists")
+	}
+
 	return repo.AddParcel(parcel)
 }
