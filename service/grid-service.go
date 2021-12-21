@@ -17,6 +17,8 @@ var ctx = context.Background()
 type GridService interface {
 	GetGrid(userInfo *entity.UserInfo) (*[]entity.Parcel, error)
 	AddParcel(parcel *entity.Parcel) error
+	AddArt(pin *entity.PinNft) error
+	RemoveArt(index int) error
 }
 
 var (
@@ -71,4 +73,12 @@ func (*gridService) AddParcel(parcel *entity.Parcel) error {
 	}
 
 	return repo.AddParcel(parcel)
+}
+
+func (*gridService) AddArt(pin *entity.PinNft) error {
+	return repo.AddPinnedNft(pin)
+}
+
+func (*gridService) RemoveArt(index int) error {
+	return repo.RemovePinnedNft(index)
 }

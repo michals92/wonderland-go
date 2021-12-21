@@ -19,6 +19,8 @@ type Repository interface {
 	GetParcels(box *entity.BoundingBox) (*[]entity.Parcel, error)
 	AddParcel(parcel *entity.Parcel) error
 	ParcelExists(parcelId int) bool
+	AddPinnedNft(pin *entity.PinNft) error
+	RemovePinnedNft(index int) error
 }
 
 func NewFirestoreRepository() Repository {
@@ -84,6 +86,46 @@ func (r *firestoreRepo) AddParcel(parcel *entity.Parcel) error {
 
 	parcelDoc := client.Collection(parcelCollectionName).Doc(strconv.Itoa(parcel.H3Index))
 	_, error = parcelDoc.Set(ctx, &parcel)
+
+	return error
+}
+
+func (r *firestoreRepo) AddPinnedNft(pin *entity.PinNft) error {
+	ctx := context.Background()
+	client, error := firestore.NewClient(ctx, projectID)
+
+	if error != nil {
+		return error
+	}
+
+	defer client.Close()
+
+	_, error = client.Collection(parcelCollectionName).Doc(strconv.Itoa(pin.H3Index)).Update(ctx, []firestore.Update{
+		{
+			Path:  "pinned_nft",
+			Value: pin.PinnedNFT,
+		},
+	})
+
+	return error
+}
+
+func (r *firestoreRepo) RemovePinnedNft(index int) error {
+	ctx := context.Background()
+	client, error := firestore.NewClient(ctx, projectID)
+
+	if error != nil {
+		return error
+	}
+
+	defer client.Close()
+
+	_, error = client.Collection(parcelCollectionName).Doc(strconv.Itoa(index)).Update(ctx, []firestore.Update{
+		{
+			Path:  "pinned_nft",
+			Value: firestore.Delete,
+		},
+	})
 
 	return error
 }

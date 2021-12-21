@@ -72,11 +72,33 @@ func (*gridController) AddParcel(response http.ResponseWriter, request *http.Req
 }
 
 func (*gridController) PinArt(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json; charset=utf-8")
 
+	decoder := json.NewDecoder(request.Body)
+	var pinNft entity.PinNft
+	error := decoder.Decode(&pinNft)
+
+	if error != nil {
+		sendJson(response, http.StatusBadRequest, "Unable to parse nft pin")
+		return
+	}
+
+	gridService.AddArt(&pinNft)
 }
 
 func (*gridController) UnpinArt(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json; charset=utf-8")
 
+	decoder := json.NewDecoder(request.Body)
+	var pinNft entity.PinNft
+	error := decoder.Decode(&pinNft)
+
+	if error != nil {
+		sendJson(response, http.StatusBadRequest, "Unable to parse nft pin")
+		return
+	}
+
+	gridService.RemoveArt(pinNft.H3Index)
 }
 
 func sendJson(response http.ResponseWriter, statusCode int, message string) {

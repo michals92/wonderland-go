@@ -13,3 +13,8 @@ type Parcel struct {
 	PinnedNFT *PinnedNFT `json:"pinned_nft,omitempty" firestore:"PinnedNFT,omitempty"`
 	Owner     string     `json:"owner"`
 }
+
+type PinNft struct {
+	H3Index   int        `json:"h3index"`
+	PinnedNFT *PinnedNFT `json:"pinned_nft"`
+}
