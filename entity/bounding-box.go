@@ -11,3 +11,8 @@ type BoundingBox struct {
 	SouthEast Coordinate `json:"southeast"`
 	SouthWest Coordinate `json:"southwest"`
 }
+
+type UserInfo struct {
+	BoundingBox BoundingBox `json:"bbox"`
+	Wallet      string      `json:"wallet"`
+}

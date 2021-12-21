@@ -15,6 +15,8 @@ type gridController struct{}
 type GridController interface {
 	GetParcels(response http.ResponseWriter, request *http.Request)
 	AddParcel(response http.ResponseWriter, request *http.Request)
+	PinArt(response http.ResponseWriter, request *http.Request)
+	UnpinArt(response http.ResponseWriter, request *http.Request)
 }
 
 var gridService service.GridService
@@ -28,15 +30,15 @@ func (*gridController) GetParcels(response http.ResponseWriter, request *http.Re
 	response.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 	decoder := json.NewDecoder(request.Body)
-	var boundingBox entity.BoundingBox
-	error := decoder.Decode(&boundingBox)
+	var userInfo entity.UserInfo
+	error := decoder.Decode(&userInfo)
 
 	if error != nil {
 		sendJson(response, http.StatusBadRequest, "Unable to parse bounding box")
 		return
 	}
 
-	parcels, error := gridService.GetGrid(&boundingBox)
+	parcels, error := gridService.GetGrid(&userInfo)
 	if error != nil {
 		sendJson(response, http.StatusBadRequest, error.Error())
 		return
@@ -67,6 +69,14 @@ func (*gridController) AddParcel(response http.ResponseWriter, request *http.Req
 	}
 
 	response.WriteHeader(http.StatusOK)
+}
+
+func (*gridController) PinArt(response http.ResponseWriter, request *http.Request) {
+
+}
+
+func (*gridController) UnpinArt(response http.ResponseWriter, request *http.Request) {
+
 }
 
 func sendJson(response http.ResponseWriter, statusCode int, message string) {

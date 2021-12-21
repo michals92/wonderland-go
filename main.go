@@ -23,10 +23,11 @@ func main() {
 	httpRouter.POST("/token/refresh", userController.Refresh)*/
 
 	//httpRouter.AUTH_POST("/page", pageController.PostPage)
-	//httpRouter.AUTH_GET("/homepage", pageController.GetHomepage)
 
 	httpRouter.POST("/parcels", gridController.GetParcels)
 	httpRouter.POST("/parcel", gridController.AddParcel)
+	httpRouter.POST("/pinArt", gridController.PinArt)
+	httpRouter.GET("/unpinArt", gridController.UnpinArt)
 
 	httpRouter.SERVE(os.Getenv("PORT"))
 }

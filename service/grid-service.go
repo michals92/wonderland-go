@@ -15,7 +15,7 @@ type gridService struct{}
 var ctx = context.Background()
 
 type GridService interface {
-	GetGrid(box *entity.BoundingBox) (*[]entity.Parcel, error)
+	GetGrid(userInfo *entity.UserInfo) (*[]entity.Parcel, error)
 	AddParcel(parcel *entity.Parcel) error
 }
 
@@ -29,8 +29,8 @@ func NewGridService(repository repository.Repository) GridService {
 	return &gridService{}
 }
 
-func (*gridService) GetGrid(box *entity.BoundingBox) (*[]entity.Parcel, error) {
-	parcels, error := repo.GetParcels(box)
+func (*gridService) GetGrid(userInfo *entity.UserInfo) (*[]entity.Parcel, error) {
+	parcels, error := repo.GetParcels(&userInfo.BoundingBox)
 	if error != nil {
 		return nil, error
 	}
@@ -38,7 +38,13 @@ func (*gridService) GetGrid(box *entity.BoundingBox) (*[]entity.Parcel, error) {
 	var infoPar []entity.Parcel
 
 	for _, s := range *parcels {
-		s.Type = "bought"
+
+		if s.Owner == userInfo.Wallet {
+			s.Type = "mine"
+		} else {
+			s.Type = "bought"
+		}
+
 		infoPar = append(infoPar, s)
 	}
 
@@ -50,6 +56,18 @@ func (*gridService) AddParcel(parcel *entity.Parcel) error {
 
 	if parcelExists {
 		return errors.New("parcel already exists")
+	}
+
+	if parcel.Name == "" {
+		return errors.New("empty parcel name")
+	}
+
+	if parcel.Owner == "" {
+		return errors.New("empty parcel owner")
+	}
+
+	if parcel.H3Index == 0 {
+		return errors.New("bad index")
 	}
 
 	return repo.AddParcel(parcel)
